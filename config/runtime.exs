@@ -22,9 +22,9 @@ end
 
 if config_env() == :prod do
   database_url =
-    System.get_env("DATABASE_URL") ||
+    System.get_env("VITE_PROD_DATABASE_URL") ||
       raise """
-      environment variable DATABASE_URL is missing.
+      environment variable VITE_PROD_DATABASE_URL is missing.
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
@@ -48,22 +48,36 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "localhost"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :peck_orders, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
+  # config :peck_orders, PeckOrdersWeb.Endpoint,
+  #   url: [host: host, port: 443, scheme: "https"],
+  #   http: [
+  #     # Enable IPv6 and bind on all interfaces.
+  #     # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+  #     # See the documentation on https://hexdocs.pm/bandit/Bandit.html#t:options/0
+  #     # for details about using IPv6 vs IPv4 and loopback vs public addresses.
+  #     ip: {0, 0, 0, 0, 0, 0, 0, 0},
+  #     port: port
+  #   ],
+  #   secret_key_base: secret_key_base
   config :peck_orders, PeckOrdersWeb.Endpoint,
-    url: [host: host, port: 443, scheme: "https"],
-    http: [
-      # Enable IPv6 and bind on all interfaces.
-      # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
-      # See the documentation on https://hexdocs.pm/bandit/Bandit.html#t:options/0
-      # for details about using IPv6 vs IPv4 and loopback vs public addresses.
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: port
+    url: [
+      scheme: "https",
+      host: "peck-orders.fly.dev",
+      port: 443
     ],
-    secret_key_base: secret_key_base
+    http: [
+      port: port,
+      ip: {0, 0, 0, 0}
+    ],
+    secret_key_base: secret_key_base,
+    check_origin: ["https://peck-orders-ui.fly.dev"],
+    force_ssl: [rewrite_on: [:x_forwarded_proto]],
+    server: true
 
   # ## SSL Support
   #

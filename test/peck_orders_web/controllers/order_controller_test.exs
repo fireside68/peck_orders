@@ -53,7 +53,7 @@ defmodule PeckOrdersWeb.OrderControllerTest do
     setup [:create_order]
 
     test "renders order when data is valid", %{conn: conn, order: %Order{id: id} = order} do
-      conn = put(conn, ~p"/api/orders/#{order}", order: @update_attrs)
+      conn = put(conn, ~p"/api/orders/#{order.id}", order: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, ~p"/api/orders/#{id}")
@@ -67,7 +67,7 @@ defmodule PeckOrdersWeb.OrderControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, order: order} do
-      conn = put(conn, ~p"/api/orders/#{order}", order: @invalid_attrs)
+      conn = put(conn, ~p"/api/orders/#{order.id}", order: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -76,11 +76,11 @@ defmodule PeckOrdersWeb.OrderControllerTest do
     setup [:create_order]
 
     test "deletes chosen order", %{conn: conn, order: order} do
-      conn = delete(conn, ~p"/api/orders/#{order}")
+      conn = delete(conn, ~p"/api/orders/#{order.id}")
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, ~p"/api/orders/#{order}")
+        get(conn, ~p"/api/orders/#{order.id}")
       end
     end
   end

@@ -15,6 +15,10 @@ defmodule PeckOrdersWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
+  socket "/socket", PeckOrdersWeb.UserSocket,
+    websocket: [connect_info: [:peer_data, :x_headers, :uri]],
+    longpoll: false
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
@@ -38,6 +42,11 @@ defmodule PeckOrdersWeb.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
+
+  plug CORSPlug,
+    origin: ["http://localhost:5173", "https://peck-orders.fly.dev", "https://peck-orders-ui.fly.dev"],
+    max_age: 86_400,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
