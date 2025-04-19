@@ -16,6 +16,7 @@ const StatusFilter = ({ value, onChange }: StatusFilterProps) => {
         <option value="shipped">Shipped</option>
         <option value="delivered">Delivered</option>
         <option value="placed">Placed</option>
+        <option value="shipping">Shipping</option>
       </select>
     </div>
   );
