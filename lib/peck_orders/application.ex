@@ -17,7 +17,8 @@ defmodule PeckOrders.Application do
       # Start a worker by calling: PeckOrders.Worker.start_link(arg)
       # {PeckOrders.Worker, arg},
       # Start to serve requests, typically the last entry
-      PeckOrdersWeb.Endpoint
+      PeckOrdersWeb.Endpoint,
+      PeckOrders.OrderStatusServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

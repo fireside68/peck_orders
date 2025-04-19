@@ -5,10 +5,21 @@ defmodule PeckOrdersWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", PeckOrdersWeb do
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :put_secure_browser_headers
+  end
+
+  scope "/", PeckOrdersWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+  end
+
+  scope "/api", as: :api do
     pipe_through :api
 
-    resources "/orders", OrderController, excewpt: [:new, :edit]
+    resources "/orders", PeckOrdersWeb.OrderController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
