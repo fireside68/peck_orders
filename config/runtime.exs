@@ -48,8 +48,8 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "localhost"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  host = System.get_env("PHX_HOST") || "peck-orders-ui.fly.dev"
+  port = String.to_integer(System.get_env("PHX_PORT") || "443")
 
   config :peck_orders, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
@@ -67,8 +67,8 @@ if config_env() == :prod do
   config :peck_orders, PeckOrdersWeb.Endpoint,
     url: [
       scheme: "https",
-      host: "peck-orders.fly.dev",
-      port: 443
+      host: host,
+      port: port
     ],
     http: [
       port: port,

@@ -44,9 +44,15 @@ defmodule PeckOrdersWeb.Endpoint do
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug CORSPlug,
-    origin: ["http://localhost:5173", "https://peck-orders.fly.dev", "https://peck-orders-ui.fly.dev"],
+    origin: [
+      "http://localhost:5173",
+      "https://peck-orders.fly.dev",
+      "https://peck-orders-ui.fly.dev"
+    ],
     max_age: 86_400,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
+    headers: ["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
