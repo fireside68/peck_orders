@@ -52,7 +52,14 @@ defmodule PeckOrdersWeb.Endpoint do
     max_age: 86_400,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
-    headers: ["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"]
+    headers: [
+      "Authorization",
+      "Content-Type",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+      "Access-Control-Allow-Origin"
+    ]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
