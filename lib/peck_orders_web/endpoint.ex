@@ -52,14 +52,7 @@ defmodule PeckOrdersWeb.Endpoint do
     max_age: 86_400,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
-    headers: [
-      "Authorization",
-      "Content-Type",
-      "Accept",
-      "Origin",
-      "X-Requested-With",
-      "Access-Control-Allow-Origin"
-    ]
+    headers: ["Authorization", "Content-Type"]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -70,4 +63,10 @@ defmodule PeckOrdersWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug PeckOrdersWeb.Router
+
+  def cors_origins(_conn) do
+    IO.inspect(Application.get_env(:peck_orders, :cors_origins, ["*"]), label: "CORS Origins")
+
+    Application.get_env(:peck_orders, :cors_origins, ["*"])
+  end
 end

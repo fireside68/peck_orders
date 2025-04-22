@@ -79,6 +79,13 @@ if config_env() == :prod do
     force_ssl: [rewrite_on: [:x_forwarded_proto]],
     server: true
 
+  config :peck_orders,
+         :cors_origins,
+         if(config_env() == :prod,
+           do: ["https://peck-orders-ui.fly.dev"],
+           else: ["*"]
+         )
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
