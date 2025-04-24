@@ -6,6 +6,7 @@ export const useOrderChannel = (
   orders: Order[],
   setOrders: React.Dispatch<React.SetStateAction<Order[]>>
 ) => {
+  const mainText = "Connecting to order channels...";
   useEffect(() => {
     const cleanups: (() => void)[] = [];
 
@@ -14,7 +15,7 @@ export const useOrderChannel = (
 
       channel
         .join()
-        .receive("ok", () => console.log(`Joined orders:${order.id}`))
+        .receive("ok", () => console.info(`%cJoined orders:${order.id}`, 'color:blue; font-weight:bold;'))
         .receive("error", () =>
           console.error(`Failed to join orders:${order.id}`)
         );
