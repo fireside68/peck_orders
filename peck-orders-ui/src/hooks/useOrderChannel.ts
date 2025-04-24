@@ -6,7 +6,6 @@ export const useOrderChannel = (
   orders: Order[],
   setOrders: React.Dispatch<React.SetStateAction<Order[]>>
 ) => {
-  const mainText = "Connecting to order channels...";
   useEffect(() => {
     const cleanups: (() => void)[] = [];
 
