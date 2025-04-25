@@ -20,6 +20,9 @@ config :peck_orders, PeckOrdersWeb.Endpoint,
   secret_key_base: "tp6UcKxP9FMAkZkQvuTlCJYj2Ym8ZBvtccdkHiv7dXkDQjGuPfQNatwnobUpDya2",
   server: false
 
+# Mocking the Orders behaviour for testing
+config :peck_orders, :order_module, PeckOrders.OrdersMock
+
 # In test we don't send emails
 config :peck_orders, PeckOrders.Mailer, adapter: Swoosh.Adapters.Test
 

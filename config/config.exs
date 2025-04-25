@@ -31,6 +31,14 @@ config :peck_orders, PeckOrdersWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :peck_orders, PeckOrders.Mailer, adapter: Swoosh.Adapters.Local
 
+if config_env() == :prod do
+  config :peck_orders, :cors_origins, ["https://peck-orders-ui.fly.dev"]
+else
+  config :peck_orders, :cors_origins, ["*"]
+end
+
+config :peck_orders, :order_module, PeckOrders.OrderImpl
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
