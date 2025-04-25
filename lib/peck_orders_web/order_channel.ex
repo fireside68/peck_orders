@@ -1,6 +1,7 @@
 defmodule PeckOrdersWeb.OrderChannel do
   @moduledoc false
   use PeckOrdersWeb, :channel
+  intercept ["status_update"]
 
   def join("orders:" <> order_id, _payload, socket) do
     # order_id = String.to_integer(order_id)
