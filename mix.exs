@@ -10,7 +10,23 @@ defmodule PeckOrders.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.cobertura": :test
+      ],
+      ignore_modules: [
+        PeckOrders.OrdersMock,
+        PeckOrders.OrderBehaviour,
+        PeckOrders.Mailer,
+        PeckOrders.Release,
+        PeckOrders.ReleaseTasks,
+        PeckOrdersWeb.Telemetry
+      ]
     ]
   end
 
@@ -33,21 +49,23 @@ defmodule PeckOrders.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bandit, "~> 1.5"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:cors_plug, "~> 3.0"},
-      {:phoenix, "~> 1.7.21"},
-      {:phoenix_ecto, "~> 4.5"},
+      {:dns_cluster, "~> 0.1.1"},
       {:ecto_sql, "~> 3.10"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
-      {:swoosh, "~> 1.5"},
+      {:excoveralls, "~> 0.18", only: :test},
       {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:mox, "~> 1.0", only: :test},
+      {:phoenix, "~> 1.7.21"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:postgrex, ">= 0.0.0"},
+      {:swoosh, "~> 1.5"},
+      {:telemetry_metrics, "~> 1.0"},
+      {:telemetry_poller, "~> 1.0"}
     ]
   end
 

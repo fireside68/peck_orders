@@ -37,6 +37,8 @@ else
   config :peck_orders, :cors_origins, ["*"]
 end
 
+config :peck_orders, :order_module, PeckOrders.OrderImpl
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

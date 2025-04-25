@@ -1,8 +1,6 @@
 defmodule PeckOrders.OrderStatusServer do
   @moduledoc false
   use GenServer
-  alias PeckOrders.Orders
-  # alias PeckOrders.Orders.Order
 
   @statuses ["placed", "processing", "shipping", "delivered"]
 
@@ -21,18 +19,20 @@ defmodule PeckOrders.OrderStatusServer do
     {:noreply, state}
   end
 
+  defp order_module, do: Application.get_env(:peck_orders, :order_module, PeckOrders.Orders)
+
   defp schedule_tick do
     Process.send_after(self(), :tick, 3_000)
   end
 
   defp update_random_order do
-    orders = Orders.list_orders()
+    orders = order_module().list_orders()
 
     if Enum.any?(orders) do
       order = Enum.random(orders)
       new_status = Enum.random(@statuses)
 
-      {:ok, updated_order} = Orders.update_order(order, %{status: new_status})
+      {:ok, updated_order} = order_module().update_order(order, %{status: new_status})
 
       topic = "orders:#{updated_order.id}"
 
