@@ -43,7 +43,15 @@ npm install
 npm run dev
 ```
 
-Visit: [http://localhost:5173](http://localhost:5173)
+Visit: [http://localhost:5173](http://localhost:5173) locally, [https://peck-orders-ui.fly.dev](https://peck-orders-ui.fly.dev) hosted example
+
+---
+
+### 💼 .env — Required for Local Development
+
+This project uses environment variables stored in a `.env` file at the root of the repo.
+
+If you'd like to run this locally, [contact me](mailto:cjohns0913@gmail.com) for access to the required values.
 
 ---
 
