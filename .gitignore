@@ -28,3 +28,6 @@ peck_orders-*.tar
 .env
 .env.production
 env-to-fly.sh
+
+coverage/
+peck_orders_ui/coverage/

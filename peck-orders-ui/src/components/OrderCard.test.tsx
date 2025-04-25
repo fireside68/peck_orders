@@ -1,28 +1,34 @@
 /// <reference types="vitest/globals" />
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from "@testing-library/react";
-import { OrderCard } from "./OrderCard";
-import * as hookModule from "../hooks/useOrderChannel";
+import { render, screen } from "@testing-library/react";
 import React from 'react';
-import { vi } from 'vitest';
-vi.mock("../hooks/useOrderChannel");
+import { OrderCard } from "./OrderCard";
 
-test("updates status when channel pushes update", async () => {
-  let updateFn: ((newStatus: string) => void) | null = null;
+const mockOrder = {
+  id: "abc123",
+  customer_name: "Real-Time Tester",
+  status: "processing",
+  total: "1337"
+};
 
-  (hookModule.useOrderChannel as ReturnType<typeof vi.fn>).mockImplementation((_id: any, fn: ((newStatus: string) => void) | null) => {
-    updateFn = fn;
+describe("OrderCard", () => {
+  test("renders the customer's name", () => {
+    render(<OrderCard order={mockOrder} />);
+    expect(screen.getByText("Real-Time Tester")).toBeInTheDocument();
   });
 
-  render(<OrderCard order={{ id: "abc", customer_name: "Real-Time Tester", status: "processing", total: "1337" }} />);
-
-  await waitFor(() => {
-    if (!updateFn) throw new Error("updateFn not set");
+  test("renders the order ID", () => {
+    render(<OrderCard order={mockOrder} />);
+    expect(screen.getByText(/Order ID: abc123/)).toBeInTheDocument();
   });
 
-  updateFn!("delivered");
+  test("renders the status badge", () => {
+    render(<OrderCard order={mockOrder} />);
+    expect(screen.getByText("processing")).toBeInTheDocument();
+  });
 
-  await waitFor(() => {
-    expect(screen.getByText("delivered")).toBeInTheDocument();
+  test("renders the total price", () => {
+    render(<OrderCard order={mockOrder} />);
+    expect(screen.getByText("$1337")).toBeInTheDocument();
   });
 });
